@@ -13,4 +13,11 @@
     <string name="enter_password">Enter Password</string>
     <string name="submit">Submit</string>
     <string name="login_now">Login Now.</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="enter_you_email_id">Enter You Email Id</string>
+    <string name="register_now">Register Now.</string>
+    <string name="or">---OR---</string>
+    <string name="if_already_signup">If already SignUp.</string>
+    <string name="registration">Registration</string>
 </resources>
