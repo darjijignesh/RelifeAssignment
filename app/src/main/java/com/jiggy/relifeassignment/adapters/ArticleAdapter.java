@@ -1,6 +1,7 @@
 package com.jiggy.relifeassignment.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jiggy.relifeassignment.R;
+import com.jiggy.relifeassignment.fragments.ArticleFragment;
+import com.jiggy.relifeassignment.fragments.MainFragment;
 import com.jiggy.relifeassignment.models.ArticleModel;
 
 import java.util.ArrayList;
@@ -19,10 +24,12 @@ import java.util.ArrayList;
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
     Context context;
     ArrayList<ArticleModel> articleModels;
+    MainFragment fragment;
 
-    public ArticleAdapter(Context context, ArrayList<ArticleModel> articleModels) {
+    public ArticleAdapter(Context context, ArrayList<ArticleModel> articleModels, MainFragment fragment) {
         this.context = context;
         this.articleModels = articleModels;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -38,9 +45,25 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         holder.tvTitle.setText(model.getTitle());
         holder.tvSummary.setText(model.getSummary());
+        Glide.with(context)
+                .load(model.getImageUrl())
+                .into(holder.imgArticle);
 
 
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArticleModel model = articleModels.get(position);
 
+                Bundle bundle = new Bundle();
+                bundle.putString("title",model.getTitle());
+                bundle.putString("summary",model.getSummary());
+                bundle.putString("imgurl",model.getImageUrl());
+
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_MainFragment_to_ArticleFragment,bundle);
+            }
+        });
 
     }
 

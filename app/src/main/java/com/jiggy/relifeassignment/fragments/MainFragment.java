@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.jiggy.relifeassignment.R;
 import com.jiggy.relifeassignment.adapters.ArticleAdapter;
 import com.jiggy.relifeassignment.models.ArticleModel;
@@ -43,19 +44,23 @@ public class MainFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
+    CircularProgressIndicator progressIndicator;
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewArticle = view.findViewById(R.id.article_recycler);
+        progressIndicator = view.findViewById(R.id.cpi);
         requestQueue = Volley.newRequestQueue(getActivity());
-
+        getArticleData();
     }
 
     public void getArticleData() {
+        progressIndicator.setVisibility(View.VISIBLE);
         StringRequest stringRequest=new StringRequest(articleURL,
                 response -> {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
                         if (!jsonArray.isNull(0)) {
+                            progressIndicator.setVisibility(View.GONE);
                             articleModels.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -71,7 +76,7 @@ public class MainFragment extends Fragment {
                             }
 
                             if (articleModels.size() > 0) {
-                                articleAdapter = new ArticleAdapter(getActivity(), articleModels);
+                                articleAdapter = new ArticleAdapter(getActivity(), articleModels,MainFragment.this);
                                 recyclerViewArticle.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 recyclerViewArticle.setAdapter(articleAdapter);
                             }

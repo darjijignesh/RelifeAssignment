@@ -10,6 +10,9 @@
         app:cardCornerRadius="4dp"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:cardElevation="5dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -21,7 +24,7 @@
             <ImageView
                 android:id="@+id/img_article"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:scaleType="fitXY" />
 
             <TextView
